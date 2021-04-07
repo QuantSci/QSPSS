@@ -1,0 +1,43 @@
+# Introduction {#intro}
+
+*Rich Jones*
+4-7-2021
+
+
+## What this book is about
+
+This guide provides a summary of some relatively straight-forward strategies for dealing with questions regarding sample size, minimum detectable effects, and power. This document is all about math, simple computing strategies, and more involved simulation strategies. This is a complement to my longer works that are about the general approach to justifying the sample size for a study. I have a [checklist](https://docs.google.com/document/d/1SfCP7L-i7Xva8nlGowS-Z4ngTsNVMc14eNWv96DbloY/edit?usp=sharing) that one can use to make sure the relevant details are being considered. An obliquely related document is my [essay on planning a pilot & feasibility study](https://docs.google.com/document/d/19vZoSYlcn0kf7-RHlbrbPTQJ3uUBldjEevYoQvKcVP8/edit?usp=sharing).
+
+We start with some easy equations that cover most use cases, even when there are  covariates, unbalanced designs, and clustering. We then move on to some harder questions and outline some strategies for conducting simulations. Code examples in R and Stata.
+
+**Emphasis is on finding the minimum detectable effect** or difference given known sample size (typically as constrained by budget or feasibility considerations) and typical assumptions (type-I error level of 5% and power of 80%). The work is inspired by Gerald Van Belle and his *Statistical Rules of Thumb* (2008, Wiley), and Jacob Cohen's *Statistical power analysis for the behavioral sciences* (1988, Lawrence Erlbaum Associates). Simulations in R build off code for conducting simulations
+provided by [Andrew Althouse](https://github.com/aalthous/RCT-Simulation-v1/blob/b197df75865e37e5be66f38fef01ed068790b246/RCT_Binary_Outcome.R).
+
+**Remember that sample size, power, and minimal detectable effect size calculations are always wrong.** Not only because this guide makes extensive use of *rules-of-thumb* and approximate solutions. These approximations can be useful and it is important to know when these are appropriate to use. But in all situations, determining the right sample size for a research study is a guessing game about the future. And [prediction is always hard, especially about the future](https://quoteinvestigator.com/2013/10/20/no-predict/). Investigators make assumptions about the data they are likely to collect, and these are used to assess the adequacy of the planned sample size. The quality of the answer that comes out (power, required sample size, minimum detectable effect) is subject to the limits of the quality of the assumptions that go into the calculations and computations. The assumptions are certainly wrong to some degree, so the power or sample size justification must also be wrong to some degree.
+
+**There are strategies to make the calculations and computations less wrong.** Oftentimes, the persons coming up with the research questions and designing the research study (the substantive investigators) and the persons coming up with the sample size justification or performing the calculations and computations (research methodologists, statisticians) are different people, with different knowledge and expertise. This is an important challenge to the quality of the sample size justification of a research proposal. Justifications and forecasts can be substantially improved with better mutual understanding of the research questions and context (on the part of the research methodologist or statistician) and of the inputs and assumptions of the calculations and computations (on the part of the substantive investigators). Since -- in my experience -- most research proposals are *not* reviewed by methodological experts, but instead by substantive experts, the justification of the sample size must be written in a way that is convincing, comprehensible, and sensible to substantive experts. All while maintaining methodological rigor. That's an important challenge for the developers of research proposals.
+
+**About rules-of-thumb**. Generally, I am not referring to aphorisms like "10 events per predictor" or "30 is a large sample" or "600 observations is strong for factor analysis". I am referring to simplifying strategies for computation in the face of complex study design, and conservative and simplifying constants used when the near ubiquitous clinical research design choice of a type-I error probability of 5% and desire for 80% power applies.
+
+
+## Guiding principles for approaching sample size and statistical power considerations in research proposals
+
+Here are some guiding principles:
+
+* There are **two common forms of research questions**: those of *amount* (with two important variants: mean differences, proportion differences) and differences in *degree* (correlation, and differences in correlation).
+* Most research questions can be reduced to one of these two common forms, and a rough approximation to the minimum detectable effect can be obtained using relatively simple calculations drawing upon rules-of-thumb.
+* Likewise, most research questions are complicated in some way such that the rough approximation can be improved by a bespoke simulation. Simulation methods sound complicated but are not really that much more complicated than the rules-of-thumb computations. We show this by example.
+* There are other types of research questions that might not fit the amount/degree forms: the methods described in this document regarding simulation will help the researcher plan for their study and analysis. We demonstrate some areas (e.g., questions about precision of estimation, and factor analysis questions)
+* Both rough approximations and simulations are useful and serve a purpose in research planning
+  * Rough approximations are suitable for early stages of research planning, and they may be as precise as warranted given the quality of data available as a basis for the assumptions necessary to run calculations or design simulations.
+  * Rough calculations can be easily expressed in a few lines of written text and therefore provide intersubjectively verifiable and transparent reporting of assumptions and sample size justification in a research proposal.
+  * Simulations offer a convenient check on closed form calculations (and the assumptions and approximations involved).
+  * Where the rules-of-thumb are expressed in terms of standardized units, and the literature is full of good advice to avoid relying only on standardized
+    units for power and sample size justification (including GVB:SROT), simulations can be generated using plausible values for the variables under study.
+  * Simulations can accommodate design features (e.g., clustering and non-independence, imbalance across groups, various mechanisms of missing data and attrition, randomness in group assignment, randomness in treatment effects, measurement error in outcomes or predictors) that are infeasible to build into closed-form computations and by that measure provide a more precise estimate of the desired quantity (minimum detectable effect size, statistical power). However, such simulations are difficult or impossible to describe completely in the few lines of text available for such considerations in fixed-length research proposals, and unless described in detail in supplementary material risk being interpreted as "opaque" or "vague" and if so interpreted, are worthless to the reviewer and to the research team or principal investigator.
+* With these considerations:
+  * A rough approximation is essential for concisely and completely conveying the sample size and statistical power considerations of a research proposal.
+  * These rough approximations can be further supported with results of bespoke simulation, if deemed necessary.
+
+
+

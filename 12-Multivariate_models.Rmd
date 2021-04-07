@@ -1,0 +1,7 @@
+# Multivariate models {#multivariate}
+
+*Rich Jones*
+4-7-2021
+
+Including factor analysis, item response theory, structural equation modeling, and extentions (e.g., measurement noninvariance testing, differential item functioning).
+
