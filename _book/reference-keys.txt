@@ -30,3 +30,6 @@ examples_multivariate
 examples_nec
 pilots
 multilevel
+methodologist
+investigator
+exmedmodconf
