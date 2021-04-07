@@ -16,3 +16,5 @@ The essential role of a collaborating or consulting research methodologist as a 
   * *Concisely* means use as many words as are necessary to defend the argument *clearly*, but not more.
 
 It is my hope that having a resource where relatively simple rough approximations and a guide to simulation study generation readily available makes these roles easier to fulfill.
+
+fin
