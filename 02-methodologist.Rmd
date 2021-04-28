@@ -5,16 +5,32 @@
 4-7-2021
 
 
-The essential role of a collaborating or consulting research methodologist as a member of a research team designing a project:
+The essential role of a collaborating or consulting research methodologist as a member 
+of a research team designing a project:
 
-* To guide the team in conceptualizing the research question and study design in such a way that questions are clearly articulated and their operationalization in study data are clearly described, feasible, and efficient.
-* To prepare a plan to conduct data analysis to address the research questions or test relevant hypotheses.
-* To justify the adequacy of the research design -- importantly the size of the sample and the plan for analysis -- and clearly,  completely, convincingly, and concisely describe these aspects of a study design for a research proposal.
+* To guide the team in conceptualizing the research question and study design in such 
+  a way that questions are clearly articulated and their operationalization in study 
+  data are clearly described, feasible, and efficient.
+* To prepare a plan to conduct data analysis to address the research questions or 
+  test relevant hypotheses.
+* To justify the adequacy of the research design -- importantly the size of the sample 
+  and the plan for analysis -- and clearly,  completely, convincingly, and concisely
+  describe these aspects of a study design for a research proposal.
   * *Clearly* means avoid jargon and don't be overly terse.
-  * *Completely* means provide all of the information needed to evaluate the adequacy of the argument being made. Explicitly identify contrasts, comparisons, and assumptions.
-  * *Convincingly* means -- within the confines of good scientific and research practice -- place the argument being advanced in the best possible light and anticipate and address challenges to the justification being offered. As necessary, prepare alternative plans for analysis that address anticipated problems.
-  * *Concisely* means use as many words as are necessary to defend the argument *clearly*, but not more.
+  * *Completely* means provide all of the information needed to evaluate the adequacy 
+    of the argument being made. Explicitly identify contrasts, comparisons, and 
+    assumptions.
+  * *Convincingly* means -- within the confines of good scientific and research 
+    practice -- place the argument being advanced in the best possible light and 
+    anticipate and address challenges to the justification being offered. As 
+    necessary, prepare alternative plans for analysis that address anticipated 
+    problems.
+  * *Concisely* means use as many words as are necessary to defend the argument 
+    *clearly*, but not more.
 
-It is my hope that having a resource where relatively simple rough approximations and a guide to simulation study generation readily available makes these roles easier to fulfill.
+It is my hope that having a resource where relatively simple rough approximations and 
+a guide to simulation study generation readily available makes these roles easier to
+fulfill.
+
 
 fin
