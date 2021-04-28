@@ -3,6 +3,62 @@
 *Rich Jones*
 4-7-2021
 
-The basic form is Lehr's equation.…
+The minimum per-group sample size ($n$) to detect a generic effect size ($ES$) with a two-tailed type-I error risk of 5% and 80% power is
+
+$$ n  = \frac{16}{ES^2}. $$
+
+This is known as **Lehr's equation**. The minimum detectable $ES$ is
+
+$$ ES = \frac{4}{\sqrt{n}} $$
+
+for two sample tests and $\frac{\sqrt{8}}{\sqrt{n}} = \frac{2.82}{\sqrt{n}}$ for one-sample tests.
+
+Statistical power for a given effect is
+
+$$\text{Power} = F\left(ES g^{-.5} \sqrt{n} - z_{1-\alpha/2} \right) , $$
+
+where F denotes the normal probability distribution function (`R:pnorm(z)`, `Stata:normal(z)`), when $\alpha$ (the probability of a type-I error) is .05, then $z_{1-\alpha/2} = 1.96$, and $g$ is the number of groups and assumed to be 1 or 2 (and $2^{-.5} \approx 0.707$, and $1^{-.5} = 1$).
+
+The effect size ($ES$) varies across the common forms (mean differences, proportion differences, correlations) and under different design considerations (e.g., the presence of covariates, non-independence of observations such as through clustering [repeated observations, cluster designs]). The values 16, 8, and 4 represent the assumptions of two-tailed type-I error probability of .05 and power of .80 and are described in the technical details below.
+
+## Glossary, definitions, and foundations
+
+Move technical details here. Also add a glossary. Also add classic hypothesis testing null and alternative hypothesis effect distribution curve figure and discuss.
+
+
+|Term|Meaning|
+|---|---|
+|0.707|$\approx 1/\sqrt{2}$|
+|0.842|$\approx z_{.8} = z_{1-\beta} \text{, when }\beta = .20$|
+|1.414|$\approx \sqrt{2}$|
+|1.813|$\approx \pi/\sqrt{3}$|
+|1.96|$\approx  z_{.025} = z_{1-\alpha/2} \text{, when }\alpha = .05$|
+|2.802|$\approx \sqrt{(z_{.025}-z_{.8})^2}$|
+|2.83|$\approx \sqrt{8}$|
+|4|$= \sqrt{16} \approx  \sqrt{2(z_{.025}-z_{.8})^2}$|
+|8|$\approx  (z_{.025}-z_{.8})^2$|
+|16|$\approx  2(z_{.025}-z_{.8})^2$|
+| $\alpha$ | Alpha is usually used to denote the probability of making a *type-I error*|
+|Asymptotic simulation|I don't even know if this is the right word. Maybe "population" simulation would be better. I use it to describe a simulation of one very large data set and using that single data set to inform some aspect, rather than the more usual case of simulation (sometimes Monte Carlo simulation) for the situation when multiple replications of a sample matching that planned (with a finite sample size) are generated and the characteristics of some key statistics (e.g., test statistics) are aggregated across the individual simulations. I use asymptotic simulations as a check on coding in Monte Carlo simulations, or to check algebra.|
+| $\beta$ | **1.** Beta sometimes is used to refer to the probability of making a *type-II error*; **2.** Beta is sometimes used to refer to a regression coefficient|.
+|Effect size|In general and Cohen's effect sizes|
+|F|A generic term for a function, generally a non-linear transformation of a number, see also $z$, *logit*|
+|Logit|A logit is a unit on a log odds scale and also a transformation of proportions to log odds: $\text{logit}(p)=ln(p/(1-p))$.|
+|$\mu$|Used to indicate a mean, sometimes the thing we're taking the mean of is noted in subscripts (mean of x is $\mu_x$)|
+|Marginal| What does it mean to Rich? What does it mean to others?|
+|$N$ and $n$|blah|
+|$N_{eff}$ and $n_{eff}$|Effective sample sizes overall and per group. Computed after taking into consideration some design characteristics, such as imbalance across groups, missing data, clustering|
+|$2Npq$|**1.** The effective per-group sample size ($n_{eff}$) when $N$ is the overall, total sample size, $p$ is the proportion in one of the two groups, and $q=1-p$. Also the harmonic mean of the two group sample sizes ($n_1,n_2$).|
+|$p$|A proportion, ranging between 0 and 1.|
+|P-value| The probability (over a long run of identically designed conducted experiments) of finding a significant effect under the assumption that the true population level effect is null.|
+|Population|A hypothetical body from which potential observations (a *sample*) are made and to which inferences are desired to be made in reference to.|
+|Power|The probability (over a long run of identically designed and conducted experiments) of finding a significant effect under the assumption that the true population level effect is as hypothesized.|
+|$r \text{ and } \rho$|Used to indicate a correlation. Generally $r$ would refer to a observed sample correlation and $\rho$ a population correlation.|
+|Rates|Are events occurring or changes observed over time. Generally, proportions and probabilities are not rates.|
+|Sample|A realized draw of observations from a *population*.|
+|Two-tailed vs one-tailed| blah|
+|Type-I error|Concluding there is an effect, when in truth, there is no effect|
+|Type-II error|Concluding there is no effect, when in truth, there is an effect|
+|$z$|blah|
 
 fin
