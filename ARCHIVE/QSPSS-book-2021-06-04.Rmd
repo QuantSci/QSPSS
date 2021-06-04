@@ -1,0 +1,513 @@
+--- 
+title: "Sample size and Statistical Power Considerations"
+author: "QSP Contributors"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: QuantSci/QSPSS
+description: "The output format for this example is bookdown::gitbook."
+---
+
+# Preface
+
+This is the preface
+
+```{r eval=FALSE}
+install.packages("bookdown")
+```
+
+This is a book about power calculation and sample size justification. Enjoy!
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+
+<!--chapter:end:index.Rmd-->
+
+# Introduction {#intro}
+
+*Rich Jones*
+4-7-2021
+
+
+## What this book is about
+
+This guide provides a summary of some relatively straight-forward strategies for dealing with questions regarding sample size, minimum detectable effects, and power. This document is all about math, simple computing strategies, and more involved simulation strategies. This is a complement to my longer works that are about the general approach to justifying the sample size for a study. I have a [checklist](https://docs.google.com/document/d/1SfCP7L-i7Xva8nlGowS-Z4ngTsNVMc14eNWv96DbloY/edit?usp=sharing) that one can use to make sure the relevant details are being considered. An obliquely related document is my [essay on planning a pilot & feasibility study](https://docs.google.com/document/d/19vZoSYlcn0kf7-RHlbrbPTQJ3uUBldjEevYoQvKcVP8/edit?usp=sharing).
+
+We start with some easy equations that cover most use cases, even when there are  covariates, unbalanced designs, and clustering. We then move on to some harder questions and outline some strategies for conducting simulations. Code examples in R and Stata.
+
+**Emphasis is on finding the minimum detectable effect** or difference given known sample size (typically as constrained by budget or feasibility considerations) and typical assumptions (type-I error level of 5% and power of 80%). The work is inspired by Gerald Van Belle and his *Statistical Rules of Thumb* (2008, Wiley), and Jacob Cohen's *Statistical power analysis for the behavioral sciences* (1988, Lawrence Erlbaum Associates). Simulations in R build off code for conducting simulations
+provided by [Andrew Althouse](https://github.com/aalthous/RCT-Simulation-v1/blob/b197df75865e37e5be66f38fef01ed068790b246/RCT_Binary_Outcome.R).
+
+**Remember that sample size, power, and minimal detectable effect size calculations are always wrong.** Not only because this guide makes extensive use of *rules-of-thumb* and approximate solutions. These approximations can be useful and it is important to know when these are appropriate to use. But in all situations, determining the right sample size for a research study is a guessing game about the future. And [prediction is always hard, especially about the future](https://quoteinvestigator.com/2013/10/20/no-predict/). Investigators make assumptions about the data they are likely to collect, and these are used to assess the adequacy of the planned sample size. The quality of the answer that comes out (power, required sample size, minimum detectable effect) is subject to the limits of the quality of the assumptions that go into the calculations and computations. The assumptions are certainly wrong to some degree, so the power or sample size justification must also be wrong to some degree.
+
+**There are strategies to make the calculations and computations less wrong.** Oftentimes, the persons coming up with the research questions and designing the research study (the substantive investigators) and the persons coming up with the sample size justification or performing the calculations and computations (research methodologists, statisticians) are different people, with different knowledge and expertise. This is an important challenge to the quality of the sample size justification of a research proposal. Justifications and forecasts can be substantially improved with better mutual understanding of the research questions and context (on the part of the research methodologist or statistician) and of the inputs and assumptions of the calculations and computations (on the part of the substantive investigators). Since -- in my experience -- most research proposals are *not* reviewed by methodological experts, but instead by substantive experts, the justification of the sample size must be written in a way that is convincing, comprehensible, and sensible to substantive experts. All while maintaining methodological rigor. That's an important challenge for the developers of research proposals.
+
+**About rules-of-thumb**. Generally, I am not referring to aphorisms like "10 events per predictor" or "30 is a large sample" or "600 observations is strong for factor analysis". I am referring to simplifying strategies for computation in the face of complex study design, and conservative and simplifying constants used when the near ubiquitous clinical research design choice of a type-I error probability of 5% and desire for 80% power applies.
+
+
+## Guiding principles for approaching sample size and statistical power considerations in research proposals
+
+Here are some guiding principles:
+
+* There are **two common forms of research questions**: those of *amount* (with two important variants: mean differences, proportion differences) and differences in *degree* (correlation, and differences in correlation).
+* Most research questions can be reduced to one of these two common forms, and a rough approximation to the minimum detectable effect can be obtained using relatively simple calculations drawing upon rules-of-thumb.
+* Likewise, most research questions are complicated in some way such that the rough approximation can be improved by a bespoke simulation. Simulation methods sound complicated but are not really that much more complicated than the rules-of-thumb computations. We show this by example.
+* There are other types of research questions that might not fit the amount/degree forms: the methods described in this document regarding simulation will help the researcher plan for their study and analysis. We demonstrate some areas (e.g., questions about precision of estimation, and factor analysis questions)
+* Both rough approximations and simulations are useful and serve a purpose in research planning
+  * Rough approximations are suitable for early stages of research planning, and they may be as precise as warranted given the quality of data available as a basis for the assumptions necessary to run calculations or design simulations.
+  * Rough calculations can be easily expressed in a few lines of written text and therefore provide intersubjectively verifiable and transparent reporting of assumptions and sample size justification in a research proposal.
+  * Simulations offer a convenient check on closed form calculations (and the assumptions and approximations involved).
+  * Where the rules-of-thumb are expressed in terms of standardized units, and the literature is full of good advice to avoid relying only on standardized
+    units for power and sample size justification (including GVB:SROT), simulations can be generated using plausible values for the variables under study.
+  * Simulations can accommodate design features (e.g., clustering and non-independence, imbalance across groups, various mechanisms of missing data and attrition, randomness in group assignment, randomness in treatment effects, measurement error in outcomes or predictors) that are infeasible to build into closed-form computations and by that measure provide a more precise estimate of the desired quantity (minimum detectable effect size, statistical power). However, such simulations are difficult or impossible to describe completely in the few lines of text available for such considerations in fixed-length research proposals, and unless described in detail in supplementary material risk being interpreted as "opaque" or "vague" and if so interpreted, are worthless to the reviewer and to the research team or principal investigator.
+* With these considerations:
+  * A rough approximation is essential for concisely and completely conveying the sample size and statistical power considerations of a research proposal.
+  * These rough approximations can be further supported with results of bespoke simulation, if deemed necessary.
+
+
+
+fin
+
+
+<!--chapter:end:01-intro.Rmd-->
+
+# Role of the methodologist {#methodologist}
+
+*Rich Jones*
+
+4-7-2021
+
+
+The essential role of a collaborating or consulting research methodologist as a member 
+of a research team designing a project:
+
+* To guide the team in conceptualizing the research question and study design in such 
+  a way that questions are clearly articulated and their operationalization in study 
+  data are clearly described, feasible, and efficient.
+* To prepare a plan to conduct data analysis to address the research questions or 
+  test relevant hypotheses.
+* To justify the adequacy of the research design -- importantly the size of the sample 
+  and the plan for analysis -- and clearly,  completely, convincingly, and concisely
+  describe these aspects of a study design for a research proposal.
+  * *Clearly* means avoid jargon and don't be overly terse.
+  * *Completely* means provide all of the information needed to evaluate the adequacy 
+    of the argument being made. Explicitly identify contrasts, comparisons, and 
+    assumptions.
+  * *Convincingly* means -- within the confines of good scientific and research 
+    practice -- place the argument being advanced in the best possible light and 
+    anticipate and address challenges to the justification being offered. As 
+    necessary, prepare alternative plans for analysis that address anticipated 
+    problems.
+  * *Concisely* means use as many words as are necessary to defend the argument 
+    *clearly*, but not more.
+
+It is my hope that having a resource where relatively simple rough approximations and 
+a guide to simulation study generation readily available makes these roles easier to
+fulfill.
+
+
+fin
+
+<!--chapter:end:02-methodologist.Rmd-->
+
+# Role of the investgator {#investigator}
+
+*Rich Jones*
+4-7-2021
+
+The role of the investigator ....
+
+
+fin
+
+<!--chapter:end:03-investigator.Rmd-->
+
+# Basic forms {#basics}
+
+*Rich Jones*
+4-7-2021
+
+The minimum per-group sample size ($n$) to detect a generic effect size ($ES$) with a two-tailed type-I error risk of 5% and 80% power is
+
+$$ n  = \frac{16}{ES^2}. $$
+
+This is known as **Lehr's equation**. The minimum detectable $ES$ is
+
+$$ ES = \frac{4}{\sqrt{n}} $$
+
+for two sample tests and $\frac{\sqrt{8}}{\sqrt{n}} = \frac{2.82}{\sqrt{n}}$ for one-sample tests.
+
+Statistical power for a given effect is
+
+$$\text{Power} = F\left(ES g^{-.5} \sqrt{n} - z_{1-\alpha/2} \right) , $$
+
+where F denotes the normal probability distribution function (`R:pnorm(z)`, `Stata:normal(z)`), when $\alpha$ (the probability of a type-I error) is .05, then $z_{1-\alpha/2} = 1.96$, and $g$ is the number of groups and assumed to be 1 or 2 (and $2^{-.5} \approx 0.707$, and $1^{-.5} = 1$).
+
+The effect size ($ES$) varies across the common forms (mean differences, proportion differences, correlations) and under different design considerations (e.g., the presence of covariates, non-independence of observations such as through clustering [repeated observations, cluster designs]). The values 16, 8, and 4 represent the assumptions of two-tailed type-I error probability of .05 and power of .80 and are described in the technical details below.
+
+## Glossary, definitions, and foundations
+
+Move technical details here. Also add a glossary. Also add classic hypothesis testing null and alternative hypothesis effect distribution curve figure and discuss.
+
+
+|Term|Meaning|
+|---|---|
+|0.707|$\approx 1/\sqrt{2}$|
+|0.842|$\approx z_{.8} = z_{1-\beta} \text{, when }\beta = .20$|
+|1.414|$\approx \sqrt{2}$|
+|1.813|$\approx \pi/\sqrt{3}$|
+|1.96|$\approx  z_{.025} = z_{1-\alpha/2} \text{, when }\alpha = .05$|
+|2.802|$\approx \sqrt{(z_{.025}-z_{.8})^2}$|
+|2.83|$\approx \sqrt{8}$|
+|4|$= \sqrt{16} \approx  \sqrt{2(z_{.025}-z_{.8})^2}$|
+|8|$\approx  (z_{.025}-z_{.8})^2$|
+|16|$\approx  2(z_{.025}-z_{.8})^2$|
+| $\alpha$ | Alpha is usually used to denote the probability of making a *type-I error*|
+|Asymptotic simulation|I don't even know if this is the right word. Maybe "population" simulation would be better. I use it to describe a simulation of one very large data set and using that single data set to inform some aspect, rather than the more usual case of simulation (sometimes Monte Carlo simulation) for the situation when multiple replications of a sample matching that planned (with a finite sample size) are generated and the characteristics of some key statistics (e.g., test statistics) are aggregated across the individual simulations. I use asymptotic simulations as a check on coding in Monte Carlo simulations, or to check algebra.|
+| $\beta$ | **1.** Beta sometimes is used to refer to the probability of making a *type-II error*; **2.** Beta is sometimes used to refer to a regression coefficient|.
+|Effect size|In general and Cohen's effect sizes|
+|F|A generic term for a function, generally a non-linear transformation of a number, see also $z$, *logit*|
+|Logit|A logit is a unit on a log odds scale and also a transformation of proportions to log odds: $\text{logit}(p)=ln(p/(1-p))$.|
+|$\mu$|Used to indicate a mean, sometimes the thing we're taking the mean of is noted in subscripts (mean of x is $\mu_x$)|
+|Marginal| What does it mean to Rich? What does it mean to others?|
+|$N$ and $n$|blah|
+|$N_{eff}$ and $n_{eff}$|Effective sample sizes overall and per group. Computed after taking into consideration some design characteristics, such as imbalance across groups, missing data, clustering|
+|$2Npq$|**1.** The effective per-group sample size ($n_{eff}$) when $N$ is the overall, total sample size, $p$ is the proportion in one of the two groups, and $q=1-p$. Also the harmonic mean of the two group sample sizes ($n_1,n_2$).|
+|$p$|A proportion, ranging between 0 and 1.|
+|P-value| The probability (over a long run of identically designed conducted experiments) of finding a significant effect under the assumption that the true population level effect is null.|
+|Population|A hypothetical body from which potential observations (a *sample*) are made and to which inferences are desired to be made in reference to.|
+|Power|The probability (over a long run of identically designed and conducted experiments) of finding a significant effect under the assumption that the true population level effect is as hypothesized.|
+|$r \text{ and } \rho$|Used to indicate a correlation. Generally $r$ would refer to a observed sample correlation and $\rho$ a population correlation.|
+|Rates|Are events occurring or changes observed over time. Generally, proportions and probabilities are not rates.|
+|Sample|A realized draw of observations from a *population*.|
+|Two-tailed vs one-tailed| blah|
+|Type-I error|Concluding there is an effect, when in truth, there is no effect|
+|Type-II error|Concluding there is no effect, when in truth, there is an effect|
+|$z$|blah|
+
+fin
+
+<!--chapter:end:04-basics.Rmd-->
+
+# Comparing means {#means}
+
+*Rich Jones*
+4-7-2021
+
+Comparing means blah
+
+fin
+
+<!--chapter:end:05-means.Rmd-->
+
+# Comparing proportions {#proportions}
+
+*Rich Jones*
+4-7-2021
+
+
+Comparing proportions is tricky.
+
+fin
+
+<!--chapter:end:06-Comparing_proportions.Rmd-->
+
+# Correlations {#correlation}
+
+*Rich Jones*
+4-7-2021
+
+Correlations are correlated … 
+
+fin
+
+
+<!--chapter:end:07-Correlations.Rmd-->
+
+# Count outcomes {#counts}
+
+*Rich Jones*
+4-7-2021
+
+The Count of Monte Carlo
+
+
+
+fin
+
+<!--chapter:end:08-Count_outcomes.Rmd-->
+
+# Precision {#precision}
+
+*Rich Jones*
+4-7-2021
+
+Sometimes you just want to know  just how many angels can dance on the head of a pin.
+
+fin
+
+
+<!--chapter:end:09-Precision.Rmd-->
+
+# Equivalence and noninferiority designs {#equivalence}
+
+*Rich Jones*
+4-7-2021
+
+Do do these things
+
+fin
+
+<!--chapter:end:10-Equivalence_and_noninferiority.Rmd-->
+
+# Mediation, confounding, and moderation {#threevariables}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:11-Mediation_moderation_confounding.Rmd-->
+
+# Multivariate models {#multivariate}
+
+*Rich Jones*
+4-7-2021
+
+Including factor analysis, item response theory, structural equation modeling, and extentions (e.g., measurement noninvariance testing, differential item functioning).
+
+fin
+
+
+<!--chapter:end:12-Multivariate_models.Rmd-->
+
+# Multilevel models {#multilevel}
+
+*Contributor*
+Date
+
+Blah
+
+fin
+
+
+<!--chapter:end:13-Multilevel_models.Rmd-->
+
+# Examples: mean comparisons {#examples_means}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:14-Examples_mean_comparisons.Rmd-->
+
+# Examples: proportions {#examples_proportions}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:15-Examples_proportions.Rmd-->
+
+# Examples: correlation {#examples_correlation}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:16-Examples_correlation.Rmd-->
+
+# Examples: mediation, moderation and confounding {#exmedmodconf}
+
+
+## Mediation
+
+To simulate 3 variables conforming to a known correlation structure, 
+
+||x|m|y|
+|--|--|--|--|
+|**x**|1|||
+|**m**|Rmx|1||
+|**y**|Ryx|Rym|1|
+
+
+
+
+```{r}
+Rmx <- 0.5
+Ryx <- 0.8
+Rym <- 0.6
+```
+
+Assume `x --(b)--> m --(c)--> y` and `x --(a)--> y`, and path `b` is equal to `r31`. We also know that the multiple coefficient of determination for  given `x` and `z` is 
+
+$$ R^2 = a(r_{yx})+c(r_{ym})$$
+
+$$ b = r_{mx} $$
+
+$$ r_{yx} = a + bc $$
+
+$$ r_{ym} = c + ab $$
+
+Therefore
+
+```{r}
+b <- Rmx
+a <- (Rym*Rmx-Ryx)/(Rmx^2-1)
+c <- (Rmx*Ryx-Rym)/(Rmx^2-1)
+c(a,b,c)
+```
+
+```{r}
+# start with the endogenous variable
+N <- 100001
+pid=seq(1, by=1, len=N) # participant ID
+x <- rnorm(N,0,1)
+z <- r31*x+((1-r31^2)^.5)*rnorm(N,0,1)
+y <- 
+```
+
+
+## Moderation
+
+Gelman has suggested one needs 16 times the sample size to detect a moderation effect size that is similar to a main effect size. This implies
+
+\begin{align*}
+n &= 16*(16/ES^2)
+ES &= 16/\sqrt{n}
+\end{align*}
+
+```{r}
+# minimum detectable effect given a per-group sample size
+n <- 2/((1/32)+(1/54))
+ES <- 16/sqrt(n)
+ES
+```
+
+fin
+
+
+<!--chapter:end:17-Examples_mediation_moderation.Rmd-->
+
+# Examples: multivariate {#examples_multivariate}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:18-Examples_multivariate.Rmd-->
+
+# Examples: Not elsewhere classified {#examples_nec}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:19-Examples_other.Rmd-->
+
+# Considerations for pilot studies {#pilots}
+
+*Rich Jones*
+4-7-2021
+
+fin
+
+
+<!--chapter:end:20-Considerations_for_pilot_studies.Rmd-->
+
+`r if (knitr:::is_html_output()) '
+# References {-}
+'`
+
+
+
+<!--chapter:end:22-references.Rmd-->
+
+# Special cases {#specials}
+
+*Rich Jones*
+4-7-2021
+
+Every case is a special case.
+
+fin
+
+
+<!--chapter:end:23-Special_cases.Rmd-->
+
+## Repeated Measures Data
+
+In his text _Regression Modeling Strategies_, Harrell writes (page 149 section 7.7):
+
+> For an AR(1) correlation structure with $n$ equally spaced measurement times on $N$ subjects, with the correlation between two consecutive times being $\rho$, the effective sample size is $\frac{n-(n-2)\rho}{1+\rho}N$. Under compound symmetry, the effective sample size is $\frac{n}{1+\rho(n-1)}N$
+
+```{r}
+n <- 2 # number of repeated observations
+r <- .8 # autocorrelation
+N <- c(34,54) # number of participants (there are two groups)
+# Two assumptions about correlation structure
+ess.CS <- (n*N)/(1+r*(n-1))
+ess.AR1 <- ((n-(n-2)*r)/(1+r))*N
+# These will be the same because there are only 
+# 2 repeated observations
+ess.CS
+ess.AR1
+```
+
+Now, to find the minimum detectable mean difference (with 5% type-I error level and
+80% power using Lehr's rule) I will I will need to find the effective per-group
+sample sizes, which is the harmonic mean of the two sample sizes
+
+```{r}
+hm.ess.CS <- 2/((1/ess.CS[1])+(1/ess.CS[2]))
+hm.ess.CS
+```
+
+And now applying Lehr's rule
+
+```{r}
+d <- sqrt(16/hm.ess.CS)
+d
+```
+
+One function to rule them all for two time point studies.
+
+```{r}
+minimum.d.ANCOVA <- function(n = 2, r,N) {
+  # n <- number of repeated observations, default to 2
+  # r <- autocorrelation
+  # N <- number of participants (there are two groups), so N <- c(34,54)
+  ess.CS <- (n*N)/(1+r*(n-1))
+  hm.ess.CS <- 2/((1/ess.CS[1])+(1/ess.CS[2]))
+  d <- sqrt(16/hm.ess.CS)
+  d
+}
+minimum.d.ANCOVA(N=c(32,54),r=.8)
+minimum.d.ANCOVA(N=c(85,54),r=.8)
+```
+
+
+<!--chapter:end:WIP-longitudinal.Rmd-->
+

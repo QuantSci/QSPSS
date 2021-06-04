@@ -1,0 +1,51 @@
+## Repeated Measures Data
+
+In his text _Regression Modeling Strategies_, Harrell writes (page 149 section 7.7):
+
+> For an AR(1) correlation structure with $n$ equally spaced measurement times on $N$ subjects, with the correlation between two consecutive times being $\rho$, the effective sample size is $\frac{n-(n-2)\rho}{1+\rho}N$. Under compound symmetry, the effective sample size is $\frac{n}{1+\rho(n-1)}N$
+
+```{r}
+n <- 2 # number of repeated observations
+r <- .8 # autocorrelation
+N <- c(34,54) # number of participants (there are two groups)
+# Two assumptions about correlation structure
+ess.CS <- (n*N)/(1+r*(n-1))
+ess.AR1 <- ((n-(n-2)*r)/(1+r))*N
+# These will be the same because there are only 
+# 2 repeated observations
+ess.CS
+ess.AR1
+```
+
+Now, to find the minimum detectable mean difference (with 5% type-I error level and
+80% power using Lehr's rule) I will I will need to find the effective per-group
+sample sizes, which is the harmonic mean of the two sample sizes
+
+```{r}
+hm.ess.CS <- 2/((1/ess.CS[1])+(1/ess.CS[2]))
+hm.ess.CS
+```
+
+And now applying Lehr's rule
+
+```{r}
+d <- sqrt(16/hm.ess.CS)
+d
+```
+
+One function to rule them all for two time point studies.
+
+```{r}
+minimum.d.ANCOVA <- function(n = 2, r,N) {
+  # n <- number of repeated observations, default to 2
+  # r <- autocorrelation
+  # N <- number of participants (there are two groups), so N <- c(34,54)
+  ess.CS <- (n*N)/(1+r*(n-1))
+  hm.ess.CS <- 2/((1/ess.CS[1])+(1/ess.CS[2]))
+  d <- sqrt(16/hm.ess.CS)
+  d
+}
+minimum.d.ANCOVA(N=c(32,54),r=.8)
+minimum.d.ANCOVA(N=c(85,54),r=.8)
+```
+
