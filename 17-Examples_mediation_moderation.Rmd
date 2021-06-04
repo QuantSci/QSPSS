@@ -1,4 +1,69 @@
 # Examples: mediation, moderation and confounding {#exmedmodconf}
 
+
+## Mediation
+
+To simulate 3 variables conforming to a known correlation structure, 
+
+||x|m|y|
+|--|--|--|--|
+|**x**|1|||
+|**m**|Rmx|1||
+|**y**|Ryx|Rym|1|
+
+
+
+
+```{r}
+Rmx <- 0.5
+Ryx <- 0.8
+Rym <- 0.6
+```
+
+Assume `x --(b)--> m --(c)--> y` and `x --(a)--> y`, and path `b` is equal to `r31`. We also know that the multiple coefficient of determination for  given `x` and `z` is 
+
+$$ R^2 = a(r_{yx})+c(r_{ym})$$
+
+$$ b = r_{mx} $$
+
+$$ r_{yx} = a + bc $$
+
+$$ r_{ym} = c + ab $$
+
+Therefore
+
+```{r}
+b <- Rmx
+a <- (Rym*Rmx-Ryx)/(Rmx^2-1)
+c <- (Rmx*Ryx-Rym)/(Rmx^2-1)
+c(a,b,c)
+```
+
+```{r}
+# start with the endogenous variable
+N <- 100001
+pid=seq(1, by=1, len=N) # participant ID
+x <- rnorm(N,0,1)
+z <- r31*x+((1-r31^2)^.5)*rnorm(N,0,1)
+y <- 
+```
+
+
+## Moderation
+
+Gelman has suggested one needs 16 times the sample size to detect a moderation effect size that is similar to a main effect size. This implies
+
+\begin{align*}
+n &= 16*(16/ES^2)
+ES &= 16/\sqrt{n}
+\end{align*}
+
+```{r}
+# minimum detectable effect given a per-group sample size
+n <- 2/((1/32)+(1/54))
+ES <- 16/sqrt(n)
+ES
+```
+
 fin
 

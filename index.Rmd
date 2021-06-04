@@ -1,5 +1,5 @@
 --- 
-title: "Statistical Power and Sample Size Considerations in Psychiatry and Human Behavior Research"
+title: "Sample size and Statistical Power Considerations"
 author: "QSP Contributors"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site

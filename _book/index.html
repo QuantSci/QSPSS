@@ -24,7 +24,7 @@
 <meta name="author" content="QSP Contributors" />
 
 
-<meta name="date" content="2021-04-23" />
+<meta name="date" content="2021-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="methodologist.html"><a href="methodologist.html"><i class="fa fa-check"></i><b>3</b> Role of the methodologist</a></li>
 <li class="chapter" data-level="4" data-path="investigator.html"><a href="investigator.html"><i class="fa fa-check"></i><b>4</b> Role of the investgator</a></li>
-<li class="chapter" data-level="5" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>5</b> Basic forms</a></li>
+<li class="chapter" data-level="5" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>5</b> Basic forms</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="basics.html"><a href="basics.html#glossary-definitions-and-foundations"><i class="fa fa-check"></i><b>5.1</b> Glossary, definitions, and foundations</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="means.html"><a href="means.html"><i class="fa fa-check"></i><b>6</b> Comparing means</a></li>
 <li class="chapter" data-level="7" data-path="proportions.html"><a href="proportions.html"><i class="fa fa-check"></i><b>7</b> Comparing proportions</a></li>
 <li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlations</a></li>
@@ -184,14 +187,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Statistical Power and Sample Size Considerations in Psychiatry and Human Behavior Research</h1>
 <p class="author"><em>QSP Contributors</em></p>
-<p class="date"><em>2021-04-23</em></p>
+<p class="date"><em>2021-04-28</em></p>
 </div>
 <div id="preface" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Preface</h1>
 <p>This is the preface</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span></code></pre></div>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.name/tinytex/" class="uri">https://yihui.name/tinytex/</a>.</p>
+<p>This is a book about power calculation and sample size justification. Enjoy!</p>
 
 </div>
             </section>
@@ -250,6 +252,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -24,7 +24,7 @@
 <meta name="author" content="QSP Contributors" />
 
 
-<meta name="date" content="2021-04-23" />
+<meta name="date" content="2021-04-28" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="3" data-path="methodologist.html"><a href="methodologist.html"><i class="fa fa-check"></i><b>3</b> Role of the methodologist</a></li>
 <li class="chapter" data-level="4" data-path="investigator.html"><a href="investigator.html"><i class="fa fa-check"></i><b>4</b> Role of the investgator</a></li>
-<li class="chapter" data-level="5" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>5</b> Basic forms</a></li>
+<li class="chapter" data-level="5" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>5</b> Basic forms</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="basics.html"><a href="basics.html#glossary-definitions-and-foundations"><i class="fa fa-check"></i><b>5.1</b> Glossary, definitions, and foundations</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="means.html"><a href="means.html"><i class="fa fa-check"></i><b>6</b> Comparing means</a></li>
 <li class="chapter" data-level="7" data-path="proportions.html"><a href="proportions.html"><i class="fa fa-check"></i><b>7</b> Comparing proportions</a></li>
 <li class="chapter" data-level="8" data-path="correlation.html"><a href="correlation.html"><i class="fa fa-check"></i><b>8</b> Correlations</a></li>
@@ -185,9 +188,163 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 5</span> Basic forms</h1>
 <p><em>Rich Jones</em>
 4-7-2021</p>
-<p>The basic form is Lehr’s equation.…</p>
+<p>The minimum per-group sample size (<span class="math inline">\(n\)</span>) to detect a generic effect size (<span class="math inline">\(ES\)</span>) with a two-tailed type-I error risk of 5% and 80% power is</p>
+<p><span class="math display">\[ n  = \frac{16}{ES^2}. \]</span></p>
+<p>This is known as <strong>Lehr’s equation</strong>. The minimum detectable <span class="math inline">\(ES\)</span> is</p>
+<p><span class="math display">\[ ES = \frac{4}{\sqrt{n}} \]</span></p>
+<p>for two sample tests and <span class="math inline">\(\frac{\sqrt{8}}{\sqrt{n}} = \frac{2.82}{\sqrt{n}}\)</span> for one-sample tests.</p>
+<p>Statistical power for a given effect is</p>
+<p><span class="math display">\[\text{Power} = F\left(ES g^{-.5} \sqrt{n} - z_{1-\alpha/2} \right) , \]</span></p>
+<p>where F denotes the normal probability distribution function (<code>R:pnorm(z)</code>, <code>Stata:normal(z)</code>), when <span class="math inline">\(\alpha\)</span> (the probability of a type-I error) is .05, then <span class="math inline">\(z_{1-\alpha/2} = 1.96\)</span>, and <span class="math inline">\(g\)</span> is the number of groups and assumed to be 1 or 2 (and <span class="math inline">\(2^{-.5} \approx 0.707\)</span>, and <span class="math inline">\(1^{-.5} = 1\)</span>).</p>
+<p>The effect size (<span class="math inline">\(ES\)</span>) varies across the common forms (mean differences, proportion differences, correlations) and under different design considerations (e.g., the presence of covariates, non-independence of observations such as through clustering [repeated observations, cluster designs]). The values 16, 8, and 4 represent the assumptions of two-tailed type-I error probability of .05 and power of .80 and are described in the technical details below.</p>
+<div id="glossary-definitions-and-foundations" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Glossary, definitions, and foundations</h2>
+<p>Move technical details here. Also add a glossary. Also add classic hypothesis testing null and alternative hypothesis effect distribution curve figure and discuss.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0.707</td>
+<td><span class="math inline">\(\approx 1/\sqrt{2}\)</span></td>
+</tr>
+<tr class="even">
+<td>0.842</td>
+<td><span class="math inline">\(\approx z_{.8} = z_{1-\beta} \text{, when }\beta = .20\)</span></td>
+</tr>
+<tr class="odd">
+<td>1.414</td>
+<td><span class="math inline">\(\approx \sqrt{2}\)</span></td>
+</tr>
+<tr class="even">
+<td>1.813</td>
+<td><span class="math inline">\(\approx \pi/\sqrt{3}\)</span></td>
+</tr>
+<tr class="odd">
+<td>1.96</td>
+<td><span class="math inline">\(\approx z_{.025} = z_{1-\alpha/2} \text{, when }\alpha = .05\)</span></td>
+</tr>
+<tr class="even">
+<td>2.802</td>
+<td><span class="math inline">\(\approx \sqrt{(z_{.025}-z_{.8})^2}\)</span></td>
+</tr>
+<tr class="odd">
+<td>2.83</td>
+<td><span class="math inline">\(\approx \sqrt{8}\)</span></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\(= \sqrt{16} \approx \sqrt{2(z_{.025}-z_{.8})^2}\)</span></td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td><span class="math inline">\(\approx (z_{.025}-z_{.8})^2\)</span></td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td><span class="math inline">\(\approx 2(z_{.025}-z_{.8})^2\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\alpha\)</span></td>
+<td>Alpha is usually used to denote the probability of making a <em>type-I error</em></td>
+</tr>
+<tr class="even">
+<td>Asymptotic simulation</td>
+<td>I don’t even know if this is the right word. Maybe “population” simulation would be better. I use it to describe a simulation of one very large data set and using that single data set to inform some aspect, rather than the more usual case of simulation (sometimes Monte Carlo simulation) for the situation when multiple replications of a sample matching that planned (with a finite sample size) are generated and the characteristics of some key statistics (e.g., test statistics) are aggregated across the individual simulations. I use asymptotic simulations as a check on coding in Monte Carlo simulations, or to check algebra.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\beta\)</span></td>
+<td><strong>1.</strong> Beta sometimes is used to refer to the probability of making a <em>type-II error</em>; <strong>2.</strong> Beta is sometimes used to refer to a regression coefficient</td>
+</tr>
+<tr class="even">
+<td>Effect size</td>
+<td>In general and Cohen’s effect sizes</td>
+</tr>
+<tr class="odd">
+<td>F</td>
+<td>A generic term for a function, generally a non-linear transformation of a number, see also <span class="math inline">\(z\)</span>, <em>logit</em></td>
+</tr>
+<tr class="even">
+<td>Logit</td>
+<td>A logit is a unit on a log odds scale and also a transformation of proportions to log odds: <span class="math inline">\(\text{logit}(p)=ln(p/(1-p))\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mu\)</span></td>
+<td>Used to indicate a mean, sometimes the thing we’re taking the mean of is noted in subscripts (mean of x is <span class="math inline">\(\mu_x\)</span>)</td>
+</tr>
+<tr class="even">
+<td>Marginal</td>
+<td>What does it mean to Rich? What does it mean to others?</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(N\)</span> and <span class="math inline">\(n\)</span></td>
+<td>blah</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(N_{eff}\)</span> and <span class="math inline">\(n_{eff}\)</span></td>
+<td>Effective sample sizes overall and per group. Computed after taking into consideration some design characteristics, such as imbalance across groups, missing data, clustering</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(2Npq\)</span></td>
+<td><strong>1.</strong> The effective per-group sample size (<span class="math inline">\(n_{eff}\)</span>) when <span class="math inline">\(N\)</span> is the overall, total sample size, <span class="math inline">\(p\)</span> is the proportion in one of the two groups, and <span class="math inline">\(q=1-p\)</span>. Also the harmonic mean of the two group sample sizes (<span class="math inline">\(n_1,n_2\)</span>).</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p\)</span></td>
+<td>A proportion, ranging between 0 and 1.</td>
+</tr>
+<tr class="odd">
+<td>P-value</td>
+<td>The probability (over a long run of identically designed conducted experiments) of finding a significant effect under the assumption that the true population level effect is null.</td>
+</tr>
+<tr class="even">
+<td>Population</td>
+<td>A hypothetical body from which potential observations (a <em>sample</em>) are made and to which inferences are desired to be made in reference to.</td>
+</tr>
+<tr class="odd">
+<td>Power</td>
+<td>The probability (over a long run of identically designed and conducted experiments) of finding a significant effect under the assumption that the true population level effect is as hypothesized.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(r \text{ and } \rho\)</span></td>
+<td>Used to indicate a correlation. Generally <span class="math inline">\(r\)</span> would refer to a observed sample correlation and <span class="math inline">\(\rho\)</span> a population correlation.</td>
+</tr>
+<tr class="odd">
+<td>Rates</td>
+<td>Are events occurring or changes observed over time. Generally, proportions and probabilities are not rates.</td>
+</tr>
+<tr class="even">
+<td>Sample</td>
+<td>A realized draw of observations from a <em>population</em>.</td>
+</tr>
+<tr class="odd">
+<td>Two-tailed vs one-tailed</td>
+<td>blah</td>
+</tr>
+<tr class="even">
+<td>Type-I error</td>
+<td>Concluding there is an effect, when in truth, there is no effect</td>
+</tr>
+<tr class="odd">
+<td>Type-II error</td>
+<td>Concluding there is no effect, when in truth, there is an effect</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(z\)</span></td>
+<td>blah</td>
+</tr>
+</tbody>
+</table>
 <p>fin</p>
 
+</div>
 </div>
             </section>
 
@@ -245,6 +402,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
